@@ -14,9 +14,9 @@ import com.google.android.material.tabs.TabLayout;
 //cndmr
 public class MainActivity extends AppCompatActivity {
 
-    //되었으면 좋겠다
+    //rebase를 해야하나?
 
-    private TabLayout tabLayout;
+   private TabLayout tabLayout;
     private ViewPager viewPager;
 
     //에라이 시팔
