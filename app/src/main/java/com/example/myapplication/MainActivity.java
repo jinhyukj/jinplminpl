@@ -11,9 +11,10 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-//호앵 이번엔 돼라...
 
 public class MainActivity extends AppCompatActivity {
+
+    //되었으면 좋겠다
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
