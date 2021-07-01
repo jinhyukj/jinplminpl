@@ -11,7 +11,9 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-//진혁
+//이것은 민지 컴퓨터에서 올리것
+//잘 올라가나?
+
 
 public class MainActivity extends AppCompatActivity {
 
