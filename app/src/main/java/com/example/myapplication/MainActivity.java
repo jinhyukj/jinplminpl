@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-
+//cndmr
 public class MainActivity extends AppCompatActivity {
 
     //되었으면 좋겠다
