@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    //sibal
+    //ssibal
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
