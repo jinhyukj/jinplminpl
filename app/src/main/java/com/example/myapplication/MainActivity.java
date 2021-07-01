@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-//진혁이 거
+//진혁
 
 public class MainActivity extends AppCompatActivity {
 
