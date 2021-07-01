@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+//this is minji's
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
