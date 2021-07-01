@@ -11,10 +11,7 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-//dd
-//이건 내가 쓴거
-//니가 쓴 거 아님
-//알았음?
+//호앵 이번엔 돼라...
 
 public class MainActivity extends AppCompatActivity {
 
