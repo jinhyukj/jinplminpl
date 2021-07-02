@@ -37,11 +37,6 @@ public class Tab1 extends Fragment {
     private RecyclerView recyclerView;
     ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
     MainAdapter adapter;
-
-
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     public Tab1() {
 
 
@@ -78,7 +73,7 @@ public class Tab1 extends Fragment {
         //Initialize uri
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         //sort by ascending
-        String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+"ASC";
+        String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC";
         ContentResolver contentResolver = getActivity().getContentResolver();
         //Initialize cursor
         Cursor cursor = contentResolver.query(uri, null, null, null, sort);
