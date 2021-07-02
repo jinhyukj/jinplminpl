@@ -1,167 +1,64 @@
 package com.example.myapplication;
 
-import android.Manifest;
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import java.util.ArrayList;
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link Tab1#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class Tab1 extends Fragment {
-    private RecyclerView recyclerView;
-    ArrayList<ContactModel> arrayList;
-    MainAdapter adapter;
-    public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
-    SwipeRefreshLayout swipeRefreshLayout;
 
-    private void checkPermisson() {
-        //check condition
-        if(ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED) {
-            //when permisson is not granted
-            //request permisson
-            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, 100);
-        }
-        else{
-            //when permission granted
-            //Create method
-            getContactList();
-        }
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public Tab1() {
+        // Required empty public constructor
     }
 
-    private void getContactList() {
-        //Initialize uri
-        Uri uri = ContactsContract.Contacts.CONTENT_URI;
-        //sort by ascending
-        String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC";
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        //Initialize cursor
-        Cursor cursor = contentResolver.query(uri, null, null, null, sort);
-        //Check condition
-        arrayList = new ArrayList<ContactModel>();
-        if(cursor.getCount() > 0 ) {
-            //when count is greater than 0
-            //Use while loop
-            while (cursor.moveToNext()) {
-                //Cursor move to nest
-                //Get contact id
-                String id = cursor.getString(cursor.getColumnIndex(
-                        ContactsContract.Contacts._ID
-                ));
-
-                //Get contact name
-                String name = cursor.getString(cursor.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME
-                ));
-
-                //Initialize phone uri
-                Uri uriphone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-
-                //Initialize selection
-                String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =?";
-
-                //Initialize phone cursor
-                Cursor phoneCursor = contentResolver.query(uriphone, null, selection, new String[]{id}, null);
-
-                //check condition
-                if (phoneCursor.moveToNext()) {
-                    //When phone cursor move to next
-                    String number = phoneCursor.getString(phoneCursor.getColumnIndex(
-                            ContactsContract.CommonDataKinds.Phone.NUMBER
-                    ));
-                    //Initialize contact model
-                    ContactModel model = new ContactModel();
-                    //Set name
-                    model.setName(name);
-                    //Set number
-                    model.setNumber(number);
-                    //Add model in array list
-                    arrayList.add(model);
-                    //close phone cursor
-                    phoneCursor.close();
-                }
-            }
-            //Close cursor
-            cursor.close();
-        }
-            //Set Layout manager
-            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-            //Initialize adapter
-            adapter = new MainAdapter(this.getActivity(), arrayList);
-
-            //Set adapter
-            recyclerView.setAdapter(adapter);
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment Tab1.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static Tab1 newInstance(String param1, String param2) {
+        Tab1 fragment = new Tab1();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        //Check condition
-        if(requestCode == 100 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            //When permission is granted
-            //call method
-            getContactList();
-        }
-        else{
-            //When permission is denied
-            //Display toast
-            checkPermisson();
-        }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
-
-        recyclerView = view.findViewById(R.id.recycler_view);
-        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
-
-        Button button_add = view.findViewById(R.id.button_add);
-        Button button_delete = view.findViewById(R.id.button_delete); /*페이지 전환버튼*/
-
-        checkPermisson();
-
-        button_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(),addContact.class);
-                startActivityForResult(intent,sub);//액티비티 띄우기
-            }
-        });
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                checkPermisson();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        return view;
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_tab1, container, false);
+    }
 }
