@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ public class Tab1 extends Fragment {
     private RecyclerView recyclerView;
     ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
     MainAdapter adapter;
+    public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
     private void checkPermisson() {
         //check condition
@@ -133,7 +136,19 @@ public class Tab1 extends Fragment {
         super.onCreate(savedInstanceState);
         View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
+        Button button_add = view.findViewById(R.id.button_add);
+        Button button_delete = view.findViewById(R.id.button_delete); /*페이지 전환버튼*/
+
         checkPermisson();
+
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(),addContact.class);
+                startActivityForResult(intent,sub);//액티비티 띄우기
+            }
+        });
+
         return view;
     }
 
