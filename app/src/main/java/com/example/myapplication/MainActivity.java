@@ -1,8 +1,7 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
+//this is minji's
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.addFragment(new Tab1(), "CONTACT");
-        adapter.addFragment(new Tab2(), "GALLERY");
+        adapter.addFragment(new Gallery(), "GALLERY");
         adapter.addFragment(new Tab3(), "CANVAS");
         viewPager.setAdapter(adapter);
 
