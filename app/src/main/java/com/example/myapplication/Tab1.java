@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,7 +19,6 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,18 +26,6 @@ public class Tab1 extends Fragment {
     private RecyclerView recyclerView;
     ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
     MainAdapter adapter;
-    public Tab1() {
-
-
-    }
-
-    @Override
-    public View onCrateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
-        recyclerView = view.findViewById(R.id.recycler_view);
-        checkPermisson();
-        return view;
-    }
 
     private void checkPermisson() {
         //check condition
@@ -139,6 +125,15 @@ public class Tab1 extends Fragment {
             checkPermisson();
 
         }
+    }
+
+    @Override
+    public View onCrateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        checkPermisson();
+        return view;
     }
 
 }

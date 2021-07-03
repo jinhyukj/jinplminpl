@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-//this is minji's
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
-
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter adapter;
