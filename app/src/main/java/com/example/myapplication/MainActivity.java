@@ -11,15 +11,13 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-//cndmr
+
 public class MainActivity extends AppCompatActivity {
 
-    //rebase를 해야하나?
 
    private TabLayout tabLayout;
-    private ViewPager viewPager;
+   private ViewPager viewPager;
 
-    //에라이 시팔
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
                         Tab1 tab1 = new Tab1();
                         return tab1;
                     case 1:
-                        Tab2 tab2 = new Tab2();
-                        return tab2;
+                        Gallery gallery = new Gallery();
+                        return gallery;
                     case 2:
                         Tab3 tab3 = new Tab3();
                         return tab3;
