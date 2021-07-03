@@ -24,16 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Tab1#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Tab1 extends Fragment {
-    public static void newInstance() {
-
-    }
-
     private RecyclerView recyclerView;
     ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
     MainAdapter adapter;
@@ -42,12 +33,8 @@ public class Tab1 extends Fragment {
 
     }
 
-
     @Override
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
         checkPermisson();
@@ -65,7 +52,6 @@ public class Tab1 extends Fragment {
             //when permission granted
             //Create method
             getContactList();
-
         }
     }
 
