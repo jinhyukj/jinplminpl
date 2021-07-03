@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.addFragment(new Tab1(), "CONTACT");
         adapter.addFragment(new Tab2(), "GALLERY");
-        adapter.addFragment(new Tab3(), "TAB3");
+        adapter.addFragment(new Tab3(), "CANVAS");
         viewPager.setAdapter(adapter);
 
     }
