@@ -8,5 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="backgroundfragment">#2b2b2b</color>
+    <color name="colorPrimary">#BDFFBF</color>
 
 </resources>

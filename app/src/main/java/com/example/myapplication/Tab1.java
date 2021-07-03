@@ -153,9 +153,6 @@ public class Tab1 extends Fragment {
         else{
             //When permission is denied
             //Display toast
-            //Toast.makeText(Tab1.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-
-            //call check permission method
             checkPermisson();
 
         }
