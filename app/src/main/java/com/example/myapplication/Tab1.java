@@ -127,13 +127,15 @@ public class Tab1 extends Fragment {
         }
     }
 
+    @Nullable
     @Override
-    public View onCrateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
         checkPermisson();
         return view;
     }
+
 
 }
