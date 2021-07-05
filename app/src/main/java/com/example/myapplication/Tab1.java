@@ -13,8 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -29,6 +32,8 @@ public class Tab1 extends Fragment {
     ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
     MainAdapter adapter;
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
+
+
 
     private void checkPermisson() {
         //check condition
@@ -57,6 +62,7 @@ public class Tab1 extends Fragment {
         if(cursor.getCount() > 0 ){
             //when count is greater than 0
             //Use while loop
+
             while(cursor.moveToNext()){
                 //Cursor move to nest
                 //Get contact id
@@ -135,6 +141,10 @@ public class Tab1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+
         recyclerView = view.findViewById(R.id.recycler_view);
         Button button_add = view.findViewById(R.id.button_add);
         Button button_delete = view.findViewById(R.id.button_delete); /*페이지 전환버튼*/
@@ -148,6 +158,7 @@ public class Tab1 extends Fragment {
                 startActivityForResult(intent,sub);//액티비티 띄우기
             }
         });
+
 
         return view;
     }

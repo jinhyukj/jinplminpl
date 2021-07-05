@@ -17,7 +17,7 @@ public class addContact extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_add);
+        setContentView(R.layout.fragement_addcontact);
 
         name = findViewById(R.id.name);
         phone = findViewById(R.id.phone);
@@ -45,7 +45,10 @@ public class addContact extends AppCompatActivity {
                     Toast.makeText(addContact.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                 }
 
+                finish();
             }
+
+
         });
 
     }
