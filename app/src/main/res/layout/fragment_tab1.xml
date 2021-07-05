@@ -8,12 +8,21 @@
     android:visibility="visible"
     tools:context=".Tab1">
 
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_layout"
+    android:layout_width="match_parent"
+    android:layout_height="520dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="520dp"
         android:scrollbars="vertical"
         tools:listitem="@layout/item_contact" />
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,5 +52,6 @@
         android:clickable="true"
         />
     </LinearLayout>
+
 
 </LinearLayout>
