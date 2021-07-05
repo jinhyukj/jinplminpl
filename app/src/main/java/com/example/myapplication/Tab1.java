@@ -142,9 +142,6 @@ public class Tab1 extends Fragment {
         super.onCreate(savedInstanceState);
         View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
-
         recyclerView = view.findViewById(R.id.recycler_view);
         Button button_add = view.findViewById(R.id.button_add);
         Button button_delete = view.findViewById(R.id.button_delete); /*페이지 전환버튼*/
@@ -159,6 +156,8 @@ public class Tab1 extends Fragment {
             }
         });
 
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
 
         return view;
     }

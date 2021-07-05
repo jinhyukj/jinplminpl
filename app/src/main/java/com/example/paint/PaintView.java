@@ -20,6 +20,7 @@ public class PaintView extends View {
         brush.setStrokeWidth(8f);
         params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float pointX = event.getX();
