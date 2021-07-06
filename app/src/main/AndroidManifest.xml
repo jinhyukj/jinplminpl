@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".addContact" />
+        <activity android:name=".drawOnImage" />
+
     </application>
 
 </manifest>
