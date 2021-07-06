@@ -8,20 +8,14 @@
     android:visibility="visible"
     tools:context=".Tab1">
 
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/swipe_layout"
-    android:layout_width="match_parent"
-    android:layout_height="520dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="520dp"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_contact" />
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="520dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_contact" />
+
 
 
     <LinearLayout
@@ -31,26 +25,26 @@
         android:layout_gravity="center_horizontal"
         android:paddingTop="5dp">
 
-    <Button
-        android:id="@+id/button_add"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="Add Contact"
-        app:backgroundTint="@color/purple_500" />
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Add Contact"
+            app:backgroundTint="@color/purple_500" />
 
-    <View
-        android:layout_width="10dp"
-        android:layout_height="0dp"/>
+        <View
+            android:layout_width="10dp"
+            android:layout_height="0dp"/>
 
-    <Button
-        android:id="@+id/button_delete"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recycler_view"
-        android:text="Delete Contact"
-        android:clickable="true"
-        />
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recycler_view"
+            android:text="Delete Contact"
+            android:clickable="true"
+            />
     </LinearLayout>
 
 
