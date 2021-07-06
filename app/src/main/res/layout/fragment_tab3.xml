@@ -9,7 +9,6 @@
     tools:layout_editor_absoluteY="81dp"
     android:tag="TAB3">
 
-
     <LinearLayout
         android:id="@+id/size_save"
         android:layout_width="match_parent"
