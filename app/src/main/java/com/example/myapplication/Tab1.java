@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class Tab1 extends Fragment {
     private RecyclerView recyclerView;
-    ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
+    ArrayList<ContactModel> arrayList;
     MainAdapter adapter;
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
     SwipeRefreshLayout swipeRefreshLayout;
@@ -57,10 +57,11 @@ public class Tab1 extends Fragment {
         //Initialize cursor
         Cursor cursor = contentResolver.query(uri, null, null, null, sort);
         //Check condition
-        if(cursor.getCount() > 0 ){
+        arrayList = new ArrayList<ContactModel>();
+        if(cursor.getCount() > 0 ) {
             //when count is greater than 0
             //Use while loop
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 //Cursor move to nest
                 //Get contact id
                 String id = cursor.getString(cursor.getColumnIndex(
@@ -82,7 +83,7 @@ public class Tab1 extends Fragment {
                 Cursor phoneCursor = contentResolver.query(uriphone, null, selection, new String[]{id}, null);
 
                 //check condition
-                if(phoneCursor.moveToNext()){
+                if (phoneCursor.moveToNext()) {
                     //When phone cursor move to next
                     String number = phoneCursor.getString(phoneCursor.getColumnIndex(
                             ContactsContract.CommonDataKinds.Phone.NUMBER
@@ -102,14 +103,14 @@ public class Tab1 extends Fragment {
             //Close cursor
             cursor.close();
         }
-        //Set Layout manager
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+            //Set Layout manager
+            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        //Initialize adapter
-        adapter = new MainAdapter(this.getActivity(), arrayList);
+            //Initialize adapter
+            adapter = new MainAdapter(this.getActivity(), arrayList);
 
-        //Set adapter
-        recyclerView.setAdapter(adapter);
+            //Set adapter
+            recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -126,7 +127,6 @@ public class Tab1 extends Fragment {
             //When permission is denied
             //Display toast
             checkPermisson();
-
         }
     }
 
@@ -155,7 +155,8 @@ public class Tab1 extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getContactList();
+                checkPermisson();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
