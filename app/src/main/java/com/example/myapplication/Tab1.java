@@ -32,6 +32,7 @@ public class Tab1 extends Fragment {
     ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
     MainAdapter adapter;
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private void checkPermisson() {
         //check condition
@@ -55,12 +56,10 @@ public class Tab1 extends Fragment {
         ContentResolver contentResolver = getActivity().getContentResolver();
         //Initialize cursor
         Cursor cursor = contentResolver.query(uri, null, null, null, sort);
-
         //Check condition
         if(cursor.getCount() > 0 ){
             //when count is greater than 0
             //Use while loop
-
             while(cursor.moveToNext()){
                 //Cursor move to nest
                 //Get contact id
@@ -96,12 +95,10 @@ public class Tab1 extends Fragment {
                     model.setNumber(number);
                     //Add model in array list
                     arrayList.add(model);
-
                     //close phone cursor
                     phoneCursor.close();
                 }
             }
-
             //Close cursor
             cursor.close();
         }
@@ -140,6 +137,8 @@ public class Tab1 extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
+
         Button button_add = view.findViewById(R.id.button_add);
         Button button_delete = view.findViewById(R.id.button_delete); /*페이지 전환버튼*/
 
@@ -150,6 +149,13 @@ public class Tab1 extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(),addContact.class);
                 startActivityForResult(intent,sub);//액티비티 띄우기
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getContactList();
             }
         });
 
