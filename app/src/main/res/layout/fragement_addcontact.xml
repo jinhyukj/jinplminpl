@@ -11,7 +11,7 @@
         android:id="@+id/imageView"
         android:layout_width="184dp"
         android:layout_height="170dp"
-        android:src="@drawable/ic_baseline_person_24"
+        android:src="@drawable/ic_baseline_person_add_alt_1_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

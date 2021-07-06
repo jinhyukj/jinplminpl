@@ -2,7 +2,7 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,38 +13,26 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
 public class Tab1 extends Fragment {
     private RecyclerView recyclerView;
-    ArrayList<ContactModel> arrayList = new ArrayList<ContactModel>();
+    ArrayList<ContactModel> arrayList;
     MainAdapter adapter;
-
-
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-    public Tab1() {
-
-
-    }
-
-    @Override
-    public View onCrateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
-        recyclerView = view.findViewById(R.id.recycler_view);
-        checkPermisson();
-        return view;
-    }
+    public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private void checkPermisson() {
         //check condition
@@ -64,16 +52,16 @@ public class Tab1 extends Fragment {
         //Initialize uri
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         //sort by ascending
-        String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+"ASC";
+        String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC";
         ContentResolver contentResolver = getActivity().getContentResolver();
         //Initialize cursor
         Cursor cursor = contentResolver.query(uri, null, null, null, sort);
-
         //Check condition
-        if(cursor.getCount() > 0 ){
+        arrayList = new ArrayList<ContactModel>();
+        if(cursor.getCount() > 0 ) {
             //when count is greater than 0
             //Use while loop
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 //Cursor move to nest
                 //Get contact id
                 String id = cursor.getString(cursor.getColumnIndex(
@@ -95,12 +83,11 @@ public class Tab1 extends Fragment {
                 Cursor phoneCursor = contentResolver.query(uriphone, null, selection, new String[]{id}, null);
 
                 //check condition
-                if(phoneCursor.moveToNext()){
+                if (phoneCursor.moveToNext()) {
                     //When phone cursor move to next
                     String number = phoneCursor.getString(phoneCursor.getColumnIndex(
                             ContactsContract.CommonDataKinds.Phone.NUMBER
                     ));
-
                     //Initialize contact model
                     ContactModel model = new ContactModel();
                     //Set name
@@ -109,12 +96,10 @@ public class Tab1 extends Fragment {
                     model.setNumber(number);
                     //Add model in array list
                     arrayList.add(model);
-
                     //close phone cursor
                     phoneCursor.close();
                 }
             }
-
             //Close cursor
             cursor.close();
         }
@@ -142,9 +127,42 @@ public class Tab1 extends Fragment {
             //When permission is denied
             //Display toast
             checkPermisson();
-
         }
     }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View view =  inflater.inflate(R.layout.fragment_tab1, container, false);
+
+        recyclerView = view.findViewById(R.id.recycler_view);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
+
+        Button button_add = view.findViewById(R.id.button_add);
+        Button button_delete = view.findViewById(R.id.button_delete); /*페이지 전환버튼*/
+
+        checkPermisson();
+
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(),addContact.class);
+                startActivityForResult(intent,sub);//액티비티 띄우기
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkPermisson();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        return view;
+    }
+
 
 }
 
