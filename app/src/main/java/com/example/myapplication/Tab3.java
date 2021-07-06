@@ -39,6 +39,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import java.io.OutputStream;
@@ -48,6 +49,7 @@ import android.content.ContentValues;
 import android.graphics.Bitmap.CompressFormat;
 import android.provider.MediaStore.Images.Media;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +66,7 @@ public class Tab3 extends Fragment {
     Canvas canvas;
     Paint paint;
     Matrix matrix;
+    Switch lock;
 
     int defaultColor;
 
@@ -72,14 +75,15 @@ public class Tab3 extends Fragment {
     SeekBar seekBar;
     TextView txtPenSize;
 
-    private Context context;
+
+    Context context;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_tab3, container, false);
-        context = container.getContext();
+        //context = container.getContext();
 
         //choosenImageView = view.findViewById(R.id.ChoosenImageView);
 
@@ -90,6 +94,7 @@ public class Tab3 extends Fragment {
         imgSave = view.findViewById(R.id.btnSave);
         seekBar = view.findViewById(R.id.penSize);
         txtPenSize = view.findViewById(R.id.txtPenSize);
+        lock = view.findViewById(R.id.lock);
 
         askPermission();
 
@@ -106,6 +111,13 @@ public class Tab3 extends Fragment {
             @Override
             public void onClick(View view1){
                 signatureView.clearCanvas();
+            }
+        });
+
+
+        lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ((MainActivity) getActivity()).lockchecked(isChecked);
             }
         });
 
@@ -157,7 +169,7 @@ public class Tab3 extends Fragment {
             try {
                 OutputStream imageFileOS = getActivity().getContentResolver().openOutputStream(imageFileUri);
                 alteredBitmap.compress(CompressFormat.JPEG, 90, imageFileOS);
-                Toast t = Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT);
+                Toast t = Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT);
                 t.show();
 
             } catch (Exception e) {
@@ -187,7 +199,7 @@ public class Tab3 extends Fragment {
 
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                Toast.makeText(context, "Granted!", Toast.LENGTH_SHORT ).show();
+                Toast.makeText(getContext(), "Granted!", Toast.LENGTH_SHORT ).show();
             }
 
             @Override
