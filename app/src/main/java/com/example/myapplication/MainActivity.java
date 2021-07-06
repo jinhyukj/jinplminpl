@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
     FragmentAdapter adapter;
+    Tab3 fragmentA = (Tab3) getSupportFragmentManager().findFragmentByTag("TAB3");
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -23,29 +24,6 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main, menu);
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.clear_button:
-                //paintView.clear();
-                return true;
-            case R.id.undo_button:
-                //paintView.undo();
-                return true;
-            case R.id.redo_button:
-                //paintView.redo();
-                return true;
-            case R.id.save_button:
-                //paintView.saveImage();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    //MyFragment mf = getSupportFragmentManager().findFragmentById(R.id.myfragment);
-    //mf.myFunction();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

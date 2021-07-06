@@ -33,8 +33,6 @@ public class Tab1 extends Fragment {
     MainAdapter adapter;
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
-
-
     private void checkPermisson() {
         //check condition
         if(ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED) {
@@ -90,7 +88,6 @@ public class Tab1 extends Fragment {
                     String number = phoneCursor.getString(phoneCursor.getColumnIndex(
                             ContactsContract.CommonDataKinds.Phone.NUMBER
                     ));
-
                     //Initialize contact model
                     ContactModel model = new ContactModel();
                     //Set name
@@ -155,9 +152,6 @@ public class Tab1 extends Fragment {
                 startActivityForResult(intent,sub);//액티비티 띄우기
             }
         });
-
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
 
         return view;
     }

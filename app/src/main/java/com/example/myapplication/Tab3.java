@@ -56,7 +56,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 public class Tab3 extends Fragment {
     Switch lock;
     int defaultColor, penSize;
-    ImageButton imageEraser, imgColor, choosePicture;
+    ImageButton imageEraser, imgColor, choosePicture, redo, undo, save;
     SeekBar seekBar;
     TextView txtPenSize;
     PaintView paintView;
@@ -74,6 +74,9 @@ public class Tab3 extends Fragment {
         seekBar = view.findViewById(R.id.penSize);
         txtPenSize = view.findViewById(R.id.txtPenSize);
         lock = view.findViewById(R.id.lock);
+        undo = view.findViewById(R.id.undo);
+        redo = view.findViewById(R.id.redo);
+        save = view.findViewById(R.id.save);
 
         askPermission();
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -85,6 +88,27 @@ public class Tab3 extends Fragment {
             @Override
             public void onClick(View v) {
                 openColorPicker();
+            }
+        });
+
+        undo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view1){
+                paintView.undo();
+            }
+        });
+
+        redo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view1){
+                paintView.redo();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view1){
+                paintView.saveImage();
             }
         });
 
@@ -135,19 +159,6 @@ public class Tab3 extends Fragment {
         return view;
     }
 
-    public void menuSelect(String menu){
-        switch (menu) {
-            case "clear":
-                paintView.clear();
-            case "undo":
-                paintView.undo();
-            case "redo":
-                paintView.redo();
-            case "save":
-                paintView.saveImage();
-        }
-    }
-
     private void openColorPicker() {
         AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
@@ -164,8 +175,6 @@ public class Tab3 extends Fragment {
         ambilWarnaDialog.show(); // add
     }
 
-
-
     private void askPermission(){
         Dexter.withContext(getContext())
                 .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener(){
@@ -178,9 +187,7 @@ public class Tab3 extends Fragment {
             @Override
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
                 permissionToken.continuePermissionRequest();
-
             }
         }).check();
     }
-
 }
