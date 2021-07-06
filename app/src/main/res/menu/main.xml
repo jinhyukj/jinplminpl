@@ -18,5 +18,4 @@
         android:id="@+id/clear_button"
         app:showAsAction="never"
         android:title="Clear" />
-
 </menu>

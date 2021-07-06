@@ -55,23 +55,18 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Tab3 extends Fragment {
     Switch lock;
-
     int defaultColor, penSize;
-
-    ImageButton imageEraser, imgColor, choosePicture;
+    ImageButton imageEraser, imgColor, choosePicture, redo, undo, save;
     SeekBar seekBar;
     TextView txtPenSize;
     PaintView paintView;
-
-    Context context;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_tab3, container, false);
-        //context = container.getContext();
-        //choosenImageView = view.findViewById(R.id.ChoosenImageView);
+
         paintView = view.findViewById(R.id.paintView);
         choosePicture = view.findViewById(R.id.ChoosePictureButton);
         imageEraser = view.findViewById(R.id.btnEraser);
@@ -79,18 +74,41 @@ public class Tab3 extends Fragment {
         seekBar = view.findViewById(R.id.penSize);
         txtPenSize = view.findViewById(R.id.txtPenSize);
         lock = view.findViewById(R.id.lock);
+        undo = view.findViewById(R.id.undo);
+        redo = view.findViewById(R.id.redo);
+        save = view.findViewById(R.id.save);
 
         askPermission();
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         paintView.initialise(displayMetrics);
-
         defaultColor = ContextCompat.getColor(getActivity(), R.color.black);
 
         imgColor.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 openColorPicker();
+            }
+        });
+
+        undo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view1){
+                paintView.undo();
+            }
+        });
+
+        redo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view1){
+                paintView.redo();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view1){
+                paintView.saveImage();
             }
         });
 
@@ -101,28 +119,30 @@ public class Tab3 extends Fragment {
             }
         });
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = seekBar.getProgress();
                 paintView.setStrokeWidth(progress);
                 txtPenSize.setText(progress + "dp");
             }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
         });
-
-
 
         lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ((MainActivity) getActivity()).lockchecked(isChecked);
             }
         });
+
 
         choosePicture.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -136,7 +156,6 @@ public class Tab3 extends Fragment {
                 startActivityForResult(intent, 1000);
             }
         });
-
         return view;
     }
 
@@ -156,26 +175,6 @@ public class Tab3 extends Fragment {
         ambilWarnaDialog.show(); // add
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.clear_button:
-                paintView.clear();
-                return true;
-            case R.id.undo_button:
-                paintView.undo();
-                return true;
-            case R.id.redo_button:
-                paintView.redo();
-                return true;
-            case R.id.save_button:
-                paintView.saveImage();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     private void askPermission(){
         Dexter.withContext(getContext())
                 .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener(){
@@ -188,9 +187,7 @@ public class Tab3 extends Fragment {
             @Override
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
                 permissionToken.continuePermissionRequest();
-
             }
         }).check();
     }
-
 }

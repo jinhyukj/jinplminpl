@@ -11,26 +11,28 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class addContact extends AppCompatActivity {
-    EditText name;
-    EditText phone;
+    EditText firstname, lastname, email, phone;
     Button addContact;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragement_addcontact);
 
-        name = findViewById(R.id.name);
+        firstname = findViewById(R.id.firstname);
+        lastname = findViewById(R.id.lastname);
+        email = findViewById(R.id.email);
         phone = findViewById(R.id.phone);
         addContact = findViewById(R.id.btnAdd);
 
         addContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!name.getText().toString().isEmpty() && !phone.getText().toString().isEmpty()) {
+                if (!lastname.getText().toString().isEmpty() && !phone.getText().toString().isEmpty()) {
                     Intent intent = new Intent(Intent.ACTION_INSERT);
                     intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-                    intent.putExtra(ContactsContract.Intents.Insert.NAME, name.getText().toString());
+                    intent.putExtra(ContactsContract.Intents.Insert.NAME, firstname.getText().toString() + ' ' +lastname.getText().toString());
                     intent.putExtra(ContactsContract.Intents.Insert.PHONE, phone.getText().toString());
+                    intent.putExtra(ContactsContract.Intents.Insert.EMAIL, email.getText().toString());
                     if(intent.resolveActivity(getPackageManager()) != null){
                         startActivity(intent);
                     }

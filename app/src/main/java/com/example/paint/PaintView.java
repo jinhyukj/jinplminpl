@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class PaintView extends View {
 
-    public static int BRUSH_SIZE = 10;
+    public static int BRUSH_SIZE = 5;
     public static final int DEFAULT_COLOR = Color.RED;
     public static final int DEFAULT_BG_COLOR = Color.WHITE;
     private static final float TOUCH_TOLERANCE = 4;
@@ -64,30 +64,25 @@ public class PaintView extends View {
         int width = displayMetrics.widthPixels;
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
-
         currentColor = DEFAULT_COLOR;
         strokeWidth = BRUSH_SIZE;
     }
 
     @Override
-
     protected void onDraw(Canvas canvas) {
         canvas.save();
         mCanvas.drawColor(backgroundColor); // WRONG
-
-        for (Draw draw : paths) {
+        for(Draw draw : paths) {
             mPaint.setColor(draw.color); // WRONG
             mPaint.setStrokeWidth(draw.strokeWidth);
             mPaint.setMaskFilter(null);
             mCanvas.drawPath(draw.path, mPaint);
         }
-
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         canvas.restore();
     }
 
     private void touchStart (float x, float y) {
-
         mPath = new Path();
         Draw draw = new Draw(currentColor, strokeWidth, mPath);
         paths.add(draw);
@@ -95,7 +90,6 @@ public class PaintView extends View {
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
-
     }
 
     private void touchMove (float x, float y) {
@@ -103,19 +97,14 @@ public class PaintView extends View {
         float dy = Math.abs(y - mY);
 
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-
             mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
-
             mX = x;
             mY = y;
-
         }
-
     }
 
     private void touchUp () {
         mPath.lineTo(mX, mY);
-
     }
 
     @Override
@@ -136,11 +125,8 @@ public class PaintView extends View {
                 touchMove(x, y);
                 invalidate();
                 break;
-
         }
-
         return true;
-
     }
 
     public void clear () {
@@ -173,9 +159,8 @@ public class PaintView extends View {
 
     }
 
-    public void setStrokeWidth (int width) {
-        strokeWidth = width;
-
+    public void setStrokeWidth (int size) {
+        strokeWidth = size;
     }
 
     public void setColor (int color) {
