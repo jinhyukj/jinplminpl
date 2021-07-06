@@ -55,23 +55,18 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Tab3 extends Fragment {
     Switch lock;
-
     int defaultColor, penSize;
-
     ImageButton imageEraser, imgColor, choosePicture;
     SeekBar seekBar;
     TextView txtPenSize;
     PaintView paintView;
-
-    Context context;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_tab3, container, false);
-        //context = container.getContext();
-        //choosenImageView = view.findViewById(R.id.ChoosenImageView);
+
         paintView = view.findViewById(R.id.paintView);
         choosePicture = view.findViewById(R.id.ChoosePictureButton);
         imageEraser = view.findViewById(R.id.btnEraser);
@@ -84,7 +79,6 @@ public class Tab3 extends Fragment {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         paintView.initialise(displayMetrics);
-
         defaultColor = ContextCompat.getColor(getActivity(), R.color.black);
 
         imgColor.setOnClickListener(new View.OnClickListener(){
@@ -101,28 +95,30 @@ public class Tab3 extends Fragment {
             }
         });
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = seekBar.getProgress();
                 paintView.setStrokeWidth(progress);
                 txtPenSize.setText(progress + "dp");
             }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
         });
-
-
 
         lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ((MainActivity) getActivity()).lockchecked(isChecked);
             }
         });
+
 
         choosePicture.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -136,8 +132,20 @@ public class Tab3 extends Fragment {
                 startActivityForResult(intent, 1000);
             }
         });
-
         return view;
+    }
+
+    public void menuSelect(String menu){
+        switch (menu) {
+            case "clear":
+                paintView.clear();
+            case "undo":
+                paintView.undo();
+            case "redo":
+                paintView.redo();
+            case "save":
+                paintView.saveImage();
+        }
     }
 
     private void openColorPicker() {
@@ -156,24 +164,6 @@ public class Tab3 extends Fragment {
         ambilWarnaDialog.show(); // add
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.clear_button:
-                paintView.clear();
-                return true;
-            case R.id.undo_button:
-                paintView.undo();
-                return true;
-            case R.id.redo_button:
-                paintView.redo();
-                return true;
-            case R.id.save_button:
-                paintView.saveImage();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     private void askPermission(){
