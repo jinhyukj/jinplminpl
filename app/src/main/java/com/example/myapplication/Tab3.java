@@ -52,6 +52,8 @@ import android.widget.Toast;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class Tab3 extends Fragment {
     Switch lock;
@@ -60,6 +62,8 @@ public class Tab3 extends Fragment {
     SeekBar seekBar;
     TextView txtPenSize;
     PaintView paintView;
+    Bitmap bmp, alteredBitmap;
+    Canvas canvas;
 
     @Nullable
     @Override
@@ -109,6 +113,7 @@ public class Tab3 extends Fragment {
             @Override
             public void onClick(View view1){
                 paintView.saveImage();
+
             }
         });
 
@@ -147,16 +152,34 @@ public class Tab3 extends Fragment {
         choosePicture.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view1){
-                // 인텐트 객체 생성
-                Intent intent = new Intent(getContext(), drawOnImage.class);
-                // 새로운 액티비티 시작
-                intent.putExtra("color", defaultColor);
-                intent.putExtra("pen Size", penSize);
-
-                startActivityForResult(intent, 1000);
+                Intent choosePictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(choosePictureIntent, 0);
             }
         });
         return view;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            Uri imageFileUri = intent.getData();
+            try {
+                BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+                bmpFactoryOptions.inJustDecodeBounds = true;
+                bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(imageFileUri), null, bmpFactoryOptions);
+
+                bmpFactoryOptions.inJustDecodeBounds = false;
+                bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(imageFileUri), null, bmpFactoryOptions);
+
+                paintView.Drawing(bmp);
+
+                //choosenImageView.setImageBitmap(alteredBitmap);
+                //choosenImageView.setOnTouchListener(this);
+
+            } catch (Exception e) {
+                Log.v("ERROR", e.toString());
+            }
+        }
     }
 
     private void openColorPicker() {

@@ -53,6 +53,19 @@
             android:layout_gravity="center"
             android:text="LOCK" />
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="496dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="37dp">
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="match_parent"
+            android:layout_height="496dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="37dp"
+            />
+        </FrameLayout>
 
     <com.example.paint.PaintView
         android:id="@+id/paintView"
