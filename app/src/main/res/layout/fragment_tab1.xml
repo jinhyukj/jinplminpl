@@ -36,7 +36,8 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:text="Add Contact"
-            app:backgroundTint="@color/purple_500" />
+            android:textColor="@color/blue"
+            app:backgroundTint="@color/yellow" />
 
         <View
             android:layout_width="10dp"
@@ -49,6 +50,8 @@
             android:layout_below="@id/recycler_view"
             android:text="Delete Contact"
             android:clickable="true"
+            android:textColor="@color/blue"
+            app:backgroundTint="@color/yellow"
             />
     </LinearLayout>
 

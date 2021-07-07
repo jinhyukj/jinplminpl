@@ -1,13 +1,17 @@
 package com.example.paint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -18,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class PaintView extends View {
@@ -66,6 +71,15 @@ public class PaintView extends View {
         mCanvas = new Canvas(mBitmap);
         currentColor = DEFAULT_COLOR;
         strokeWidth = BRUSH_SIZE;
+    }
+
+    public void Drawing(Bitmap bmp){
+        mBitmap = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
+        mCanvas = new Canvas(mBitmap);
+    }
+    public Bitmap getBitmap(){
+        return mBitmap;
+
     }
 
     @Override
@@ -154,7 +168,6 @@ public class PaintView extends View {
 
         } else {
             Toast.makeText(getContext(), "Nothing to undo", Toast.LENGTH_LONG).show();
-
         }
 
     }
@@ -167,40 +180,20 @@ public class PaintView extends View {
         currentColor = color;
     }
 
-    public void saveImage () {
-        int count = 0;
-        File sdDirectory = Environment.getExternalStorageDirectory();
-        File subDirectory = new File(sdDirectory.toString() + "/Pictures/Paint");
+    public void saveImage() {
+        ContentValues contentValues = new ContentValues(3);
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, "Draw On Me");
 
-        if (subDirectory.exists()) {
-            File[] existing = subDirectory.listFiles();
-            for (File file : existing) {
-                if (file.getName().endsWith(".jpg") || file.getName().endsWith(".png")) {
-                    count++;
-                }
-            }
-        }
-        else {
-            subDirectory.mkdir();
+        Uri imageFileUri = getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        try {
+            OutputStream imageFileOS = getContext().getContentResolver().openOutputStream(imageFileUri);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, imageFileOS);
+            Toast t = Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT);
+            t.show();
+
+        } catch (Exception e) {
+            Log.v("EXCEPTION", e.getMessage());
         }
 
-        if (subDirectory.exists()) {
-            File image = new File(subDirectory, "/drawing_" + (count + 1) + ".png");
-            FileOutputStream fileOutputStream;
-
-            try {
-                fileOutputStream = new FileOutputStream(image);
-                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-                fileOutputStream.flush();
-                fileOutputStream.close();
-                Toast.makeText(getContext(), "saved", Toast.LENGTH_LONG).show();
-            }
-            catch (FileNotFoundException e) {
-
-            }
-            catch (IOException e) {
-
-            }
-        }
     }
 }

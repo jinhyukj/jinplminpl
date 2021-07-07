@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
     FragmentAdapter adapter;
-    Tab3 fragmentA = (Tab3) getSupportFragmentManager().findFragmentByTag("TAB3");
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
